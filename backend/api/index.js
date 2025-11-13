@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
-// ✅ Cached MongoDB connection for serverless
+// ✅ Cached MongoDB connection (for Vercel serverless)
 let cached = global.mongoose;
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
@@ -29,11 +29,13 @@ if (!cached) {
 
 async function connectDB() {
   if (cached.conn) return cached.conn;
+
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 10000, // 10s timeout
       })
       .then((mongoose) => {
         console.log("✅ MongoDB connected");
@@ -48,8 +50,16 @@ async function connectDB() {
   return cached.conn;
 }
 
-// Connect once before handling routes
-await connectDB();
+// ✅ Connect on each incoming request (lazy connection)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("❌ DB connection failed:", err);
+    res.status(500).json({ message: "Database connection failed" });
+  }
+});
 
 // Routes
 app.get("/", (req, res) => res.send("🐾 Pet Management API is running"));
