@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
-// ✅ Cached MongoDB connection (for Vercel serverless)
+// ✅ Cached MongoDB connection for serverless (Vercel)
 let cached = global.mongoose;
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
@@ -33,24 +33,23 @@ async function connectDB() {
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        serverSelectionTimeoutMS: 10000, // 10s timeout
+        serverSelectionTimeoutMS: 10000, // 10 seconds timeout
       })
-      .then((mongoose) => {
+      .then((mongooseInstance) => {
         console.log("✅ MongoDB connected");
-        return mongoose;
+        return mongooseInstance;
       })
       .catch((err) => {
         console.error("❌ MongoDB connection error:", err);
         throw err;
       });
   }
+
   cached.conn = await cached.promise;
   return cached.conn;
 }
 
-// ✅ Connect on each incoming request (lazy connection)
+// ✅ Lazy connect for each request
 app.use(async (req, res, next) => {
   try {
     await connectDB();
