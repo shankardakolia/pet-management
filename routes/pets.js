@@ -1,7 +1,7 @@
-import express from 'express';
-import asyncHandler from 'express-async-handler';
-import Pet from '../models/petModel.js';
-import { protect, admin } from '../middleware/authMiddleware.js';
+import express from "express";
+import asyncHandler from "express-async-handler";
+import Pet from "../models/petModel.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -25,22 +25,22 @@ function calculateAge(dob) {
     months += 12;
   }
 
-  let result = '';
-  if (years > 0) result += `${years} year${years > 1 ? 's' : ''} `;
-  if (months > 0) result += `${months} month${months > 1 ? 's' : ''} `;
-  if (days > 0) result += `${days} day${days > 1 ? 's' : ''}`;
+  let result = "";
+  if (years > 0) result += `${years} year${years > 1 ? "s" : ""} `;
+  if (months > 0) result += `${months} month${months > 1 ? "s" : ""} `;
+  if (days > 0) result += `${days} day${days > 1 ? "s" : ""}`;
 
-  return result.trim() || '0 days';
+  return result.trim() || "0 days";
 }
 
 // @desc    Get all pets
 // @route   GET /api/pets
 // @access  Private
 router.get(
-  '/',
+  "/",
   protect,
   asyncHandler(async (req, res) => {
-    const pets = await Pet.find({ owner: req.user.name });
+    const pets = await Pet.find({ owner: req.user._id });
 
     const petsWithAge = pets.map((pet) => ({
       ...pet.toObject(),
@@ -55,7 +55,7 @@ router.get(
 // @route   POST /api/pets
 // @access  Private
 router.post(
-  '/',
+  "/",
   protect,
   asyncHandler(async (req, res) => {
     const { name, species, breed, dateOfBirth, notes } = req.body;
@@ -65,7 +65,7 @@ router.post(
       species,
       breed,
       dateOfBirth,
-      owner: req.user.name,
+      owner: req.user._id, // change from req.user.name
       notes,
     });
 
@@ -75,4 +75,3 @@ router.post(
 );
 
 export default router;
-
