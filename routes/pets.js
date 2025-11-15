@@ -33,9 +33,14 @@ function calculateAge(dob) {
   return result.trim() || "0 days";
 }
 
+//
+// -----------------------------------------------------
+// GET ALL PETS
+// -----------------------------------------------------
 // @desc    Get all pets
 // @route   GET /api/pets
 // @access  Private
+//
 router.get(
   "/",
   protect,
@@ -51,9 +56,14 @@ router.get(
   })
 );
 
+//
+// -----------------------------------------------------
+// CREATE PET
+// -----------------------------------------------------
 // @desc    Add new pet
 // @route   POST /api/pets
 // @access  Private
+//
 router.post(
   "/",
   protect,
@@ -65,12 +75,40 @@ router.post(
       species,
       breed,
       dateOfBirth,
-      owner: req.user._id, // change from req.user.name
+      owner: req.user._id,
       notes,
     });
 
     const createdPet = await pet.save();
     res.status(201).json(createdPet);
+  })
+);
+
+//
+// -----------------------------------------------------
+// GET PET DETAILS (MISSING ROUTE ADDED)
+// -----------------------------------------------------
+// @desc    Get details of ONE pet
+// @route   GET /api/pets/:id
+// @access  Private
+//
+router.get(
+  "/:id",
+  protect,
+  asyncHandler(async (req, res) => {
+    const pet = await Pet.findOne({
+      _id: req.params.id,
+      owner: req.user._id, // Prevent user from accessing others’ pets
+    });
+
+    if (!pet) {
+      return res.status(404).json({ message: "Pet not found" });
+    }
+
+    const petObj = pet.toObject();
+    petObj.age = calculateAge(pet.dateOfBirth);
+
+    res.json(petObj);
   })
 );
 
