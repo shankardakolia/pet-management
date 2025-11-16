@@ -90,6 +90,49 @@
 					"response": []
 				},
 				{
+					"name": "Get Pet Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/pets/6916c68a680158ebc79ca023",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"pets",
+								"6916c68a680158ebc79ca023"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pet Medical",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/pets/6916c68a680158ebc79ca023/details",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"pets",
+								"6916c68a680158ebc79ca023",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Add Pet",
 					"request": {
 						"method": "POST",
@@ -196,6 +239,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5050/api/auth/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5050",
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -218,6 +282,28 @@
 							"path": [
 								"api",
 								"pets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Online Get Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petmanagement-two.vercel.app/api/auth/me",
+							"protocol": "https",
+							"host": [
+								"petmanagement-two",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
 							]
 						}
 					},
@@ -408,6 +494,51 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Online Get Pets Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petmanagement-two.vercel.app/api/pets/6916c68a680158ebc79ca023",
+							"protocol": "https",
+							"host": [
+								"petmanagement-two",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"pets",
+								"6916c68a680158ebc79ca023"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Online Get Pet Medical",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petmanagement-two.vercel.app/api/pets/6916c68a680158ebc79ca023/details",
+							"protocol": "https",
+							"host": [
+								"petmanagement-two",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"pets",
+								"6916c68a680158ebc79ca023",
+								"details"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -417,7 +548,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTZjMGY0NGNmYWJmODU4Yjc5MzI2MyIsImlhdCI6MTc2MzEwMDE4NSwiZXhwIjoxNzYzMTg2NTg1fQ.DH7OiwbDIomVqzNZVV7I01WMt4eiKLN2X6VwlABV4yA",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTQ2MTA0ZDI4MmM5ODYwYTg3MzVjYyIsImlhdCI6MTc2MzI3MzAzOCwiZXhwIjoxNzYzMzU5NDM4fQ.w-i9F9HK0n82s3z8i0hy45lkawWzO3zj4s-O6AFYxcU",
 				"type": "string"
 			}
 		]
